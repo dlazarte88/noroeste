@@ -95,6 +95,15 @@
 <script src="<?php base_url() ?>js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?php base_url() ?>js/app.min.js"></script>
+<!-- DataTables -->
+<script src="<?php base_url() ?>js/jquery.dataTables.min.js"></script>
+<script src="<?php base_url() ?>js/dataTables.bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="<?php base_url() ?>js/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="<?php base_url() ?>js/fastclick.min.js"></script>
+<!-- Productos -->
+<script src="<?php base_url() ?>js/productos.js"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
