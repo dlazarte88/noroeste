@@ -104,6 +104,7 @@
 <script src="<?php base_url() ?>js/fastclick.min.js"></script>
 <!-- Productos -->
 <script src="<?php base_url() ?>js/productos.js"></script>
+<script src="<?php base_url() ?>js/usuarios.js"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
