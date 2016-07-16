@@ -1,3 +1,5 @@
+-- Modificacion Tabla Usuarios- Imagen
+ALTER TABLE  `users` ADD  `imagen` VARCHAR( 200 ) NOT NULL AFTER  `password` ;
 -- Modificacion TAbla Productos
 ALTER TABLE  `Productos` ADD  `Imagen` VARCHAR( 200 ) NOT NULL AFTER  `Descripcion` ;
 -- ***********************************************************************************
