@@ -1,13 +1,22 @@
-<!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content --> 
   <div class="content-wrapper">
     <!-- Main content -->
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Usuarios
+     <!--    <small>advanced tables</small> -->
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Tables</a></li>
+        <li class="active">Data tables</li>
+      </ol>
+    </section>
     <section class="content">
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Data Table With Full Features</h3>
-            </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="usuarios-table" class="table table-bordered table-striped">
@@ -184,4 +193,4 @@
       <!-- /.row -->
     </section>
   </div>
-  <!-- /.content-wrapper -->
+  <!-- /.content-wrapper
