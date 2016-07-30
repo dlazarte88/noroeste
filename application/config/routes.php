@@ -55,4 +55,4 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['usuarios'] = "usuarios";
 
-$route['productos'] = "productos";
+$route['(:any)/productos'] = "productos";

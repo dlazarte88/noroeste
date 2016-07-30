@@ -89,19 +89,31 @@
 
 <!-- REQUIRED JS SCRIPTS -->
 
-<!-- jQuery 2.2.3 -->
-<script src="<?php base_url() ?>js/jquery-2.2.3.min.js"></script>
+<!-- jQuery 2.2.4 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+  if (!window.jQuery) {
+          document.write('<script src="<?php base_url() ?>js/jquery-2.2.4.min.js"><\/script>');
+  }
+</script>
+<!-- jQueryUI 1.11.4 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script>
+  if (!window.jQuery.ui) {
+          document.write('<script src="<?php base_url() ?>js/jquery-ui-1.11.4.min.js"><\/script>');
+  }
+</script>
 <!-- Bootstrap 3.3.6 -->
-<script src="<?php base_url() ?>js/bootstrap.min.js"></script>
-<!-- AdminLTE App -->
-<script src="<?php base_url() ?>js/app.min.js"></script>
+<script src="<?php base_url() ?>js/bootstrap-3.3.6.min.js"></script>
 <!-- DataTables -->
-<script src="<?php base_url() ?>js/jquery.dataTables.min.js"></script>
-<script src="<?php base_url() ?>js/dataTables.bootstrap.min.js"></script>
+<script src="<?php base_url() ?>js/jquery.dataTables-1.10.12.min.js"></script>
+<script src="<?php base_url() ?>js/dataTables.bootstrap-1.10.12.min.js"></script>
 <!-- SlimScroll -->
 <script src="<?php base_url() ?>js/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
 <script src="<?php base_url() ?>js/fastclick.min.js"></script>
+<!-- AdminLTE App -->
+<script src="<?php base_url() ?>js/app.min.js"></script>
 <!-- Productos -->
 <script src="<?php base_url() ?>js/productos.js"></script>
 <script src="<?php base_url() ?>js/usuarios.js"></script>
