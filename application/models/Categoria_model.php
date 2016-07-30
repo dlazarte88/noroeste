@@ -14,7 +14,7 @@ class Categoria_model extends CI_Model {
 	{
 		$query = $this->db->get($this->table);
 		if ($query->num_rows() > 0) {
-			return $query->result_array();
+			return $query->result();
 		}
 		return FALSE;
 	}

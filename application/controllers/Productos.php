@@ -30,11 +30,11 @@ class Productos extends CI_Controller{
 		
 		$aData = $this->productos_model->listar_productos();
 		if ($aData == FALSE) {
-			$aData['idProductos'] = '';
-			$aData['Nombre'] = '';
-			$aData['Codigo'] = '';
-			$aData['Descripcion'] = '';
-			$aData['Imagen'] = '';
+			$aData->idProductos = '';
+			$aData->Nombre = '';
+			$aData->Codigo = '';
+			$aData->Descripcion = '';
+			$aData->Imagen = '';
 		}
 		$aResult = array("data" => $aData);
 		echo json_encode($aResult);
@@ -47,8 +47,8 @@ class Productos extends CI_Controller{
 		}
 		$aData = $this->categoria_model->listar_categorias();
 		if ($aData == FALSE) {
-			$aData['idCategoria'] = '';
-			$aData['Nombre'] = '';
+			$aData->idCategoria = '';
+			$aData->Nombre = '';
 		}
 		$aResult = array("categoria_select" => $aData);
 		echo json_encode($aResult);
@@ -77,7 +77,13 @@ class Productos extends CI_Controller{
 		if (!$this->ion_auth->logged_in()){
 			redirect('/');
 		}
+		$aData = $this->categoria_model->listar_categorias();
+		if ($aData == FALSE) {
+			$aData->idCategoria = '';
+			$aData->Nombre = '';
+		}
 		$data = $this->productos_model->get_by_id($id);
+		$data->categoria_select = $aData;
 		echo json_encode($data);
 	}
 
@@ -135,7 +141,7 @@ class Productos extends CI_Controller{
 		$this->form_validation->set_rules('Nombre', 'Nombre', 'required');
 		$this->form_validation->set_rules('Descripcion', 'Descripcion', 'required');
 		$this->form_validation->set_rules('Imagen', 'Imagen', 'required');
-		$this->form_validation->set_rules('Categoria', 'Categoría', 'required');
+		$this->form_validation->set_rules('Categoria', 'Categoría', 'required|is_numeric');
 
 		if ($this->form_validation->run() === FALSE) {
 			$data['status'] = FALSE;

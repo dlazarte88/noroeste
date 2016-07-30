@@ -1,5 +1,6 @@
 var table_producto;
 var url_base = "http://noroeste.localhost.net/";
+var modal_option = {'backdrop':'static','keyboard':false,'show':true}
 var method;
 var idProducto;
 
@@ -42,9 +43,9 @@ function addProducto()
         {
             $('#Categoria').html('<option value="-1" selected="selected">Seleccionar</option>');
             for (var i = 0; i < data.categoria_select.length ; i++) {
-                $('#Categoria').append('<option value="'+data.categoria_select[i]['idCategoria']+'">'+data.categoria_select[i]['Nombre']+'</option>');
+                $('#Categoria').append('<option value="'+data.categoria_select[i].idCategoria+'">'+data.categoria_select[i].Nombre+'</option>');
             };
-            $('#add-productos-modal').modal('show');
+            $('#add-productos-modal').modal(modal_option);
             $('.modal-title').text('Agregar Producto');
         },
         error: function(jqXHR, textStatus, errorThrown)
@@ -57,6 +58,7 @@ function addProducto()
 function editProducto(id)
 {
     method = 'edit';
+    idProducto = id;
     validarCodigo();
     $('#add-productos-form')[0].reset();
     $.ajax({
@@ -65,13 +67,16 @@ function editProducto(id)
         dataType: "JSON",
         success: function(data)
         {
-            idProducto = data.idProductos;
+            $('#Categoria').html('<option value="-1">Seleccionar</option>');
+            for (var i = 0; i < data.categoria_select.length ; i++) {
+                $('#Categoria').append('<option value="'+data.categoria_select[i].idCategoria+'">'+data.categoria_select[i].Nombre+'</option>');
+            };
             $('[name="Nombre"]').val(data.Nombre);
             $('[name="Codigo"]').val(data.Codigo);
             $('[name="Categoria"]').val(data.Categoria_idCategoria);
             $('[name="Descripcion"]').val(data.Descripcion);
             $('[name="Imagen"]').val(data.Imagen);
-            $('#add-productos-modal').modal('show'); // show bootstrap modal when complete loaded
+            $('#add-productos-modal').modal(modal_option); // show bootstrap modal when complete loaded
             $('.modal-title').text('Editar Producto'); // Set title to Bootstrap modal title
         },
         error: function (jqXHR, textStatus, errorThrown)
