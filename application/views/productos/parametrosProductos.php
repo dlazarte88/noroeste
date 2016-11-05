@@ -4,18 +4,24 @@ $Nombre = array(
 	'id'	=> 'Nombre',
 	'value' => set_value('Nombre'),
 	'class' => 'form-control',
-	'autofocus'   => 'autofocus'
 );
 $Codigo = array(
 	'name'	=> 'Codigo',
 	'id'	=> 'Codigo',
 	'value' => set_value('Codigo'),
-	'class' => 'form-control'
+	'class' => 'form-control',
+	'autofocus'   => 'autofocus'
 );
 $Categoria = array(
 	'name'	=> 'Categoria',
 	'id'	=> 'Categoria',
 	'value' => set_value('Categoria'),
+	'class' => 'form-control'
+);
+$TipoProducto = array(
+	'name'	=> 'TipoProducto',
+	'id'	=> 'TipoProducto',
+	'value' => set_value('TipoProducto'),
 	'class' => 'form-control'
 );
 $Imagen = array(
@@ -28,6 +34,18 @@ $Descripcion = array(
 	'name'	=> 'Descripcion',
 	'id'	=> 'Descripcion',
 	'value' => set_value('Descripcion'),
+	'class' => 'form-control'
+);
+$newCategoria = array(
+	'name'	=> 'newCategoria',
+	'id'	=> 'newCategoria',
+	'value' => set_value('newCategoria'),
+	'class' => 'form-control'
+);
+$newTipoProducto = array(
+	'name'	=> 'newTipoProducto',
+	'id'	=> 'newTipoProducto',
+	'value' => set_value('newTipoProducto'),
 	'class' => 'form-control'
 );
 ?>
