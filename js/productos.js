@@ -28,6 +28,26 @@ $(document).ready(function() {
             }
   		]
   	});
+
+    table_categoria = $('#categoria-table').DataTable({
+        "processing": true,
+        "ajax": url_base + 'categorias/listar',
+        "columnDefs": [
+            {"data" : "idCategoria","targets":[0]},
+            {"data" : "Nombre","targets":[1]},
+            {
+            "data" : "idCategoria",
+            "targets" :[2],
+            "orderable": false,
+            "render" : function ( data, type, full, meta ) {
+                var html = '<div class="accion-categoria">'
+                html += '<button type="button" class="btn btn-primary" data-toggle="modal" onclick="editCategoria('+data+')"><i class="glyphicon glyphicon-pencil"></i>  Editar </button>';
+                html += '<button type="button" class="btn btn-danger" data-toggle="modal" onclick="borrarCategoria('+data+')"><i class="glyphicon glyphicon-trash"></i>  Borrar </button></div>';
+                return html;
+                }
+            }
+        ]
+    });
 });
 
 function addProducto()
@@ -36,7 +56,7 @@ function addProducto()
     validarCodigo();
     $('#add-productos-form')[0].reset();
     $.ajax({
-        url: url_base + 'productos/agregar',
+        url: url_base + 'productos/listarProducto',
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -44,6 +64,10 @@ function addProducto()
             $('#Categoria').html('<option value="-1" selected="selected">Seleccionar</option>');
             for (var i = 0; i < data.categoria_select.length ; i++) {
                 $('#Categoria').append('<option value="'+data.categoria_select[i].idCategoria+'">'+data.categoria_select[i].Nombre+'</option>');
+            };
+            $('#TipoProducto').html('<option value="-1" selected="selected">Seleccionar</option>');
+            for (var i = 0; i < data.tipo_producto_select.length ; i++) {
+                $('#TipoProducto').append('<option value="'+data.tipo_producto_select[i].idTipo_Productos+'">'+data.tipo_producto_select[i].Nombre+'</option>');
             };
             $('#add-productos-modal').modal(modal_option);
             $('.modal-title').text('Agregar Producto');
@@ -86,9 +110,27 @@ function editProducto(id)
     });
 }
 
-function reload_table()
+function editCategoria(id)
 {
-    table_producto.ajax.reload(null,false); //reload datatable ajax 
+    $('.inputErrorCat').text('');
+    method = 'edit';
+    idCategoria = id;
+    $('#add-categorias-form')[0].reset();
+    $.ajax({
+        url : url_base + 'categorias/editar/' + id,
+        type : "GET",
+        dataType : "JSON",
+        success: function(data)
+        {
+            $('[name="NombreCategoria"]').val(data.Nombre);
+            $('#add-categorias-modal').modal(modal_option);
+            $('.modal-title').text('Editar Categoría');
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            alert('Error get data from ajax');
+        }
+    });
 }
 
 function guardarProducto()
@@ -112,7 +154,7 @@ function guardarProducto()
             {
                 $('.inputError').text('');
                 $('#add-productos-modal').modal('hide');
-                reload_table();
+                table_producto.ajax.reload(null,false);
             } else {
                 for (var i = 0; i < data.input_error.length; i++) 
                 {
@@ -131,6 +173,42 @@ function guardarProducto()
     });
 }
 
+function guardarCategoria()
+{
+    $('#saveCategoriaBtn').text('guardando...');
+    $('#saveCategoriaBtn').attr('disabled',true);
+    var url_guardar;
+    if(method=='add') {
+        url_guardar = url_base+'categorias/guardar';
+    } else {
+        url_guardar = url_base+'categorias/actualizar/'+idCategoria;
+    }
+    $.ajax({
+        url : url_guardar,
+        type : "POST",
+        data : $('#add-categorias-form').serialize(),
+        dataType : "JSON",
+        success : function(data)
+        {
+            if (data.status) {
+                $('.inputError').text('');
+                $('#add-categorias-modal').modal('hide');
+                table_categoria.ajax.reload(null,false);
+            } else {
+                $('.inputErrorCat').html('Debe ingresar un nombre para la Categoría');
+            }
+            $('#saveCategoriaBtn').html('<i class="fa fa-save"></i>  Guardar '); //change button text
+            $('#saveCategoriaBtn').attr('disabled',false); //set button enable
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+            alert('Error adding / update data');
+            $('#saveCategoriaBtn').html('<i class="fa fa-save"></i>  Guardar '); //change button text
+            $('#saveCategoriaBtn').attr('disabled',false); //set button enable 
+        }
+    });
+}
+
 function borrarProducto(id)
 {
     if(confirm('Esta seguro que desea borrar el Producto?'))
@@ -144,7 +222,28 @@ function borrarProducto(id)
             {
                 //if success reload ajax table
                 $('#add-productos-modal').modal('hide');
-                reload_table();
+                table_producto.ajax.reload(null,false);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error deleting data');
+            }
+        });
+    }
+}
+
+function borrarCategoria(id)
+{
+    if(confirm('Esta seguro que desea borrar la Categoría'))
+    {
+        $.ajax({
+            url : url_base + 'categorias/borrar/' + id,
+            type : "POST",
+            dataType : "JSON",
+            success: function(data)
+            {
+                $('#add-categorias-modal').modal('hide');
+                table_categoria.ajax.reload(null,false);
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -181,4 +280,81 @@ function validarCodigo()
             });
         }
     });
+}
+
+function masCategoria()
+{
+    var display = $('.moreCatsBox').css('display');
+    $('#newCategoria').attr("placeholder", "Nueva Categoría");
+    if ('none' === display) {
+        $(".moreCatsBox").toggle(true);
+    } else {
+        $(".moreCatsBox").toggle(false);
+    }
+}
+
+function masTipoProducto()
+{
+    var display = $('.moreTipoProdBox').css('display');
+    $('#newTipoProducto').attr("placeholder", "Nuevo Tipo Producto");
+    if ('none' === display) {
+        $(".moreTipoProdBox").toggle(true);
+    } else {
+        $(".moreTipoProdBox").toggle(false);
+    }
+}
+
+function guardarCategoriaBox()
+{
+    event.preventDefault();
+    var catName = $('#newCategoria').val();
+    if (catName != ''){
+        $.ajax({
+            url : url_base + 'productos/guardarCategoria',
+            type : "POST",
+            data : { Nombre: catName },
+            dataType : "JSON",
+            success : function(data)
+            {
+                $('.inputErrorCat').text('');
+                $('#newCategoria').val('');
+                reloadCategoria();
+                $('.moreCatsBox').hide();
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error al crear Categoría');
+            }
+        });
+    } else {
+        $('.inputErrorCat').html('Debe ingresar un nombre para la Categoría');
+    }
+}
+
+function reloadCategoria()
+{
+    $.ajax({
+        url : url_base + 'productos/listarCategoria',
+        type : "GET",
+        dataType : "JSON",
+        success: function(data)
+        {
+            $('#Categoria').html('<option value="-1">Seleccionar</option>');
+            for (var i = 0; i < data.categoria_select.length ; i++) {
+                $('#Categoria').append('<option value="'+data.categoria_select[i].idCategoria+'">'+data.categoria_select[i].Nombre+'</option>');
+            };
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            alert('Error get data from ajax');
+        }
+    });
+}
+
+function addCategoria()
+{
+    method = 'add';
+    $('.inputErrorCat').text('');
+    $('#add-categorias-form')[0].reset();
+    $('#add-categorias-modal').modal(modal_option);
 }
